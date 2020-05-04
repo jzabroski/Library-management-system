@@ -870,6 +870,8 @@ namespace LibraryProject2
 		
 		private string _AId;
 		
+		private System.DateTime _PublishDate;
+		
 		private EntitySet<Selled> _Selleds;
 		
 		private EntitySet<Contain> _Contains;
@@ -888,6 +890,8 @@ namespace LibraryProject2
     partial void OnnumberOfPagesChanged();
     partial void OnAIdChanging(string value);
     partial void OnAIdChanged();
+    partial void OnPublishDateChanging(System.DateTime value);
+    partial void OnPublishDateChanged();
     #endregion
 		
 		public Book()
@@ -978,6 +982,26 @@ namespace LibraryProject2
 					this._AId = value;
 					this.SendPropertyChanged("AId");
 					this.OnAIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublishDate", DbType="datetime null")]
+		public System.DateTime PublishDate
+		{
+			get
+			{
+				return this._PublishDate;
+			}
+			set
+			{
+				if ((this._PublishDate != value))
+				{
+					this.OnPublishDateChanging(value);
+					this.SendPropertyChanging();
+					this._PublishDate = value;
+					this.SendPropertyChanged("PublishDate");
+					this.OnPublishDateChanged();
 				}
 			}
 		}

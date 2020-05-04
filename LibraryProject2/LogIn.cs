@@ -1,58 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Xunit;
 
 using System.Data.SqlClient;
+using Xunit.Abstractions;
+
 namespace LibraryProject2
 {
-    public partial class LogIn : Form
+    public class Linq2SqlDateTimeTests
     {
-        SqlConnection conn;
-        public LogIn()
+        private XunitConsoleForwarder consoleForwarder;
+        public Linq2SqlDateTimeTests(ITestOutputHelper testOutputHelper)
         {
-            InitializeComponent();
-            conn = new SqlConnection(@"Data Source=LAPTOP-9FSM0GCO\DATASERVER;Initial Catalog=Library;Integrated Security=True");
+            consoleForwarder = new XunitConsoleForwarder(testOutputHelper);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        [Fact]
+        public void button1_Click()
         {
-            try
+            using (var db = new DataClasses1DataContext(new SqlConnection(@"Data Source=.;Initial Catalog=Library;Integrated Security=True")))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Select userName,LId from Employee where id = '" + txtUserName.Text + "' and password = '" + txtPassword.Text + "'",conn);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    Main m = new Main(reader[0].ToString(),reader[1].ToString(), txtUserName.Text);
-                    MessageBox.Show("Welcome "+reader[0]);
-
-                    this.Hide();
-                    m.ShowDialog();
-
-                    this.Close();
-                }
+                if (!db.DatabaseExists())
+                    db.CreateDatabase();
                 else
-                    MessageBox.Show("Wrong id or password!");
+                {
+                    db.DeleteDatabase();
+                    db.CreateDatabase();
+                }
+                db.Log = consoleForwarder;
 
-
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-                txtUserName.Clear();
-                txtPassword.Clear();
+                var cutOffTime = new TimeSpan(16, 30, 0);
+                db.Books.Where(b => b.PublishDate.TimeOfDay >= cutOffTime && b.PublishDate.Date == DateTime.Today.Date).ToList();
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Library" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=laptop-9fsm0gco\dataserver;Initial Catalog=Library;Integrated Security=True" SettingsObjectName="LibraryProject2.Properties.Settings" SettingsPropertyName="LibraryConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=Library;Integrated Security=True" SettingsObjectName="LibraryProject2.Properties.Settings" SettingsPropertyName="LibraryConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Selled" Member="Selleds">
     <Type Name="Selled">
       <Column Name="BId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -42,6 +42,7 @@
       <Column Name="name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="numberOfPages" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AId" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Member="PublishDate" Type="System.DateTime" DbType="datetime null" CanBeNull="false" />
       <Association Name="Book_Selled" Member="Selleds" ThisKey="id" OtherKey="BId" Type="Selled" />
       <Association Name="Book_Contain" Member="Contains" ThisKey="id" OtherKey="BId" Type="Contain" />
       <Association Name="Author_Book" Member="Author" ThisKey="AId" OtherKey="id" Type="Author" IsForeignKey="true" />
