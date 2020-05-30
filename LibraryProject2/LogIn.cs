@@ -31,7 +31,7 @@ namespace LibraryProject2
                 db.Log = consoleForwarder;
 
                 var cutOffTime = new TimeSpan(16, 30, 0);
-                db.Books.Where(b => b.PublishDate.TimeOfDay >= cutOffTime && b.PublishDate.Date == DateTime.Today.Date).ToList();
+                db.Books.Where(b => b.PublishDate.TimeOfDay >= cutOffTime && b.PublishDate.Date >= DateTime.Today.Date).ToList();
             }
         }
     }
